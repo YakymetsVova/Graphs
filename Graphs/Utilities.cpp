@@ -4,12 +4,21 @@ int getHash(List* arr)
 {
 	int prime = 97;
 	ListNode* curr = arr->head;
-	int result = 1;
+
+	int length = 0;
 
 	while (curr != NULL) {
-		result += (curr->dest << 3) % prime + 11;
+		length++;
 		curr = curr->next;
 	}
+	curr = arr->head;
+
+	int result = length % prime;
+	while (curr != NULL) {
+		result = (curr->dest + result) % prime;
+		curr = curr->next;
+	}
+
 	return result;
 }
 
