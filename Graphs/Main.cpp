@@ -15,27 +15,31 @@ int main()
 	addEdge(graph, 6, 3, 4);
 	addEdge(graph, 3, 0, 1);
 
+	/*addEdge(graph, 0, 1, 5);
+	addEdge(graph, 1, 2, 6);
+	addEdge(graph, 2, 3, 7);*/
+
+
 	printGraph(graph);
 	bool* visited = newVisitedVertexArr(graph);
 
-	if (isCyclic(graph)) {
+	Dictionary* cycles = newDictionary();
+	for (int i = 0; i < graph->V; i++) {
+		List* mark = newList();
+		bool* visited = newVisitedVertexArr(graph);
+		GetCycle(graph, cycles, i, i, visited, mark);
+	}
+
+	if (cycles->head != NULL) {
 		printf("\nGraph contains at least one cycle");
-		Dictionary* cycles = newDictionary();
-
-		for (int i = 0; i < graph->V; i++) {
-			List* mark = newList();
-			bool* visited = newVisitedVertexArr(graph);
-			GetCycle(graph, cycles, i, i, visited, mark);
-		}
-
 		printf("\n\nYour cycles:\n\n");
-
 		printCycles(graph, cycles);
 	}
 	else
 	{
-		printf("\n Graph doesn't contain cycle");
+		printf("\n Graph doesn't contain a cycle");
 	}
+	
 	
 }
 
@@ -69,12 +73,12 @@ void printCycles(Graph* graph, Dictionary* cycles)
 		curle = curle->next;
 	}
 
-	printf("\n\nThe longest path was  found. Take a look :)\n");
+	printf("\nThe longest path was  found. Take a look :)\n");
 	ListNode* crawl = longestPath;
 	while (crawl->next != NULL) {
 		printf("%d -> ", crawl->dest);
 		crawl = crawl->next;
 	}
-	printf("%d -> %d - Path weight = %d", crawl->dest, longestPath->dest, max);
+	printf("%d -> %d - Path weight = %d\n\n", crawl->dest, longestPath->dest, max);
 }
 

@@ -58,39 +58,6 @@ bool* newVisitedVertexArr(Graph* graph)
 	return result;
 }
 
-//function to detect cycle in graph
-bool isCyclic(Graph* graph)
-{
-	bool* visited = newVisitedVertexArr(graph);
-	bool* recStack = newVisitedVertexArr(graph);
-	for (int i = 0; i < graph->V; i++) {
-		if (isCyclicUtil(graph, i, visited, recStack)) {
-			return true;
-
-		}
-	}
-	return false;
-}
-
-bool isCyclicUtil(Graph* graph, int startVertex, bool visited[], bool recStack[])
-{
-	if (recStack[startVertex])
-		return true;
-	if (visited[startVertex])
-		return false;
-	visited[startVertex] = recStack[startVertex] =  true;
-	ListNode* adjList = graph->array[startVertex].head;
-	ListNode* temp = adjList;
-	while (temp != NULL) {
-		if (isCyclicUtil(graph, temp->dest, visited, recStack)) {
-			return true;
-		}
-		temp = temp->next;
-	}
-	recStack[startVertex] = false;
-
-	return false;
-}
 
 //function to get cycle from given vertex if exists
 void GetCycle(Graph* graph, Dictionary* dict, int start, int node, bool visited[], List* mark)

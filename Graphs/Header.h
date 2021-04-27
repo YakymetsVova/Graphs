@@ -49,8 +49,6 @@ Graph* createGraph(int V);
 void addEdge(Graph* graph, int src, int dest, int weight);
 void printGraph(Graph* graph);
 bool* newVisitedVertexArr(Graph* graph);
-bool isCyclic(Graph* graph);
-bool isCyclicUtil(Graph* graph, int i, bool visited[], bool recStack[]);
 void GetCycle(Graph* graph, Dictionary* dict, int start, int node, bool visited[], List* mark);
 void printCycles(Graph* graph, Dictionary* cycles);
 
