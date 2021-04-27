@@ -62,7 +62,6 @@ bool* newVisitedVertexArr(Graph* graph)
 //function to get cycle from given vertex if exists
 void GetCycle(Graph* graph, Dictionary* dict, int start, int node, bool visited[], List* mark)
 {
-	static int pos = 0;
 	if (visited[node]) {
 		if (node == start) {
 			List* temp = newList();
