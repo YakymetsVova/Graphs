@@ -24,11 +24,7 @@ int main()
 	bool* visited = newVisitedVertexArr(graph);
 
 	Dictionary* cycles = newDictionary();
-	for (int i = 0; i < graph->V; i++) {
-		List* mark = newList();
-		bool* visited = newVisitedVertexArr(graph);
-		GetCycle(graph, cycles, i, i, visited, mark);
-	}
+	GetCycles(graph, cycles);
 
 	if (cycles->head != NULL) {
 		printf("\nGraph contains at least one cycle");

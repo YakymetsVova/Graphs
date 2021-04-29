@@ -59,8 +59,18 @@ bool* newVisitedVertexArr(Graph* graph)
 }
 
 
+
+void GetCycles(Graph* graph, Dictionary* cycles)
+{
+	for (int i = 0; i < graph->V; i++) {
+		List* mark = newList();
+		bool* visited = newVisitedVertexArr(graph);
+		GetCyclesUtil(graph, cycles, i, i, visited, mark);
+	}
+}
+
 //function to get cycle from given vertex if exists
-void GetCycle(Graph* graph, Dictionary* dict, int start, int node, bool visited[], List* mark)
+void GetCyclesUtil(Graph* graph, Dictionary* dict, int start, int node, bool visited[], List* mark)
 {
 	if (visited[node]) {
 		if (node == start) {
@@ -91,7 +101,7 @@ void GetCycle(Graph* graph, Dictionary* dict, int start, int node, bool visited[
 
 	//dfs algotithm
 	while (temp != NULL) {
-		GetCycle(graph, dict, start, temp->dest, visited, mark);
+		GetCyclesUtil(graph, dict, start, temp->dest, visited, mark);
 		temp = temp->next;
 	}
 
