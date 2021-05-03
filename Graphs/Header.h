@@ -41,7 +41,7 @@ typedef struct DictTag {
 ListNode* newListNode(int dest, int weight);
 ListNode* newListNode(int dest);
 List* newList();
-void AddToList(List* list, int item);
+void addToList(List* list, int item);
 void removeLastItem(List* list);
 
 
@@ -49,9 +49,14 @@ Graph* createGraph(int V);
 void addEdge(Graph* graph, int src, int dest, int weight);
 void printGraph(Graph* graph);
 bool* newVisitedVertexArr(Graph* graph);
-void GetCycles(Graph* graph, Dictionary* cycles);
-void GetCyclesUtil(Graph* graph, Dictionary* dict, int start, int node, bool visited[], List* mark);
+void getCycles(Graph* graph, Dictionary* cycles);
+void getCyclesUtil(Graph* graph, Dictionary* dict, int start, int node, bool visited[], List* mark);
 void printCycles(Graph* graph, Dictionary* cycles);
+
+void freeList(ListNode** headRef);
+void freeGraph(Graph** graph);
+void freeDict(Dictionary** dict);
+
 
 
 int getHash(List* arr);

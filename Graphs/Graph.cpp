@@ -60,30 +60,30 @@ bool* newVisitedVertexArr(Graph* graph)
 
 
 
-void GetCycles(Graph* graph, Dictionary* cycles)
+void getCycles(Graph* graph, Dictionary* cycles)
 {
 	for (int i = 0; i < graph->V; i++) {
-		List* mark = newList();
+		List* cycleVertexes = newList();
 		bool* visited = newVisitedVertexArr(graph);
-		GetCyclesUtil(graph, cycles, i, i, visited, mark);
+		getCyclesUtil(graph, cycles, i, i, visited, cycleVertexes);
 	}
 }
 
 //function to get cycle from given vertex if exists
-void GetCyclesUtil(Graph* graph, Dictionary* dict, int start, int node, bool visited[], List* mark)
+void getCyclesUtil(Graph* graph, Dictionary* dict, int startNode, int currNode, bool visited[], List* cycleVertexes)
 {
-	if (visited[node]) {
-		if (node == start) {
+	if (visited[currNode]) {
+		if (currNode == startNode) {
 			List* temp = newList();
-			ListNode* curr = mark->head;
+			ListNode* curr = cycleVertexes->head;
 			while (curr != NULL) {
-				AddToList(temp, curr->dest);
+				addToList(temp, curr->dest);
 				curr = curr->next;
 			}
 
 			int key = getHash(temp);
 			if (!containsKey(dict, key)) {
-				DictionaryItem* tmp = newDictItem(key, mark);
+				DictionaryItem* tmp = newDictItem(key, cycleVertexes);
 				addToDict(dict, tmp);
 			}
 
@@ -91,20 +91,52 @@ void GetCyclesUtil(Graph* graph, Dictionary* dict, int start, int node, bool vis
 		return;
 	}
 	
-	visited[node] = true;
-	ListNode* curr = mark->head;
+	visited[currNode] = true; 
 
-
-	AddToList(mark, node);
-	ListNode* adjList = graph->array[node].head;
-	ListNode* temp = adjList;
+	addToList(cycleVertexes, currNode);
+	ListNode* temp = graph->array[currNode].head;
 
 	//dfs algotithm
 	while (temp != NULL) {
-		GetCyclesUtil(graph, dict, start, temp->dest, visited, mark);
+		getCyclesUtil(graph, dict, startNode, temp->dest, visited, cycleVertexes);
 		temp = temp->next;
 	}
 
-	visited[node] = false;
-	removeLastItem(mark);
+	visited[currNode] = false;
+	removeLastItem(cycleVertexes);
+}
+
+void freeGraph(Graph** graph)
+{
+	for (int i = 0; i < (*graph)->V; i++) {
+		freeList(&(*graph)->array[i].head);
+	}
+	free((*graph)->array);
+	free(*graph);
+}
+
+void freeList(ListNode** headRef)
+{
+	if (headRef && *headRef) {
+		ListNode* next = (*headRef)->next;
+		while (next) {
+			ListNode* tmp = next;
+			next = next->next;
+			free(tmp);
+		}
+		free(*headRef);
+		*headRef = NULL;
+	}
+}
+
+void freeDict(Dictionary** dict)
+{
+	DictionaryItem* next = (*dict)->head;
+	while (next) {
+		DictionaryItem* tmp = next;
+		next = next->next;
+		freeList(&tmp->value->head);
+		free(tmp);
+	}
+	free(*dict);
 }

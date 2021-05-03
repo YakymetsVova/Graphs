@@ -1,0 +1,2 @@
+CMakeLists.txt not found in C:\Users\User\source\repos\Graphs Select CMakeLists.txt
+Visual Studio not found at: C:\Users\User\source\repos\Graphs\Graphs.sln Configure Disable profile

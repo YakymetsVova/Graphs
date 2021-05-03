@@ -28,7 +28,7 @@ ListNode* newListNode(int dest)
 }
 
 //add at the end of linked list
-void AddToList(List* list, int item)
+void addToList(List* list, int item)
 {
 	ListNode* node = newListNode(item);
 	ListNode* current = list->head;

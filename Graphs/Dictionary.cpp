@@ -14,7 +14,7 @@ DictionaryItem* newDictItem(int key, List* value)
 	ListNode* curr = value->head;
 	while (curr!= NULL)
 	{
-		AddToList(temp, curr->dest);
+		addToList(temp, curr->dest);
 		curr = curr->next;
 	}
 	item->value = temp;

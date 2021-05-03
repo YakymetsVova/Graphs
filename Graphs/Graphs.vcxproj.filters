@@ -24,7 +24,7 @@
     <ClCompile Include="Utilities.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="keyValuePair.cpp">
+    <ClCompile Include="Dictionary.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="List.cpp">

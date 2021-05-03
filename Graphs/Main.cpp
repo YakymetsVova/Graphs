@@ -24,7 +24,7 @@ int main()
 	bool* visited = newVisitedVertexArr(graph);
 
 	Dictionary* cycles = newDictionary();
-	GetCycles(graph, cycles);
+	getCycles(graph, cycles);
 
 	if (cycles->head != NULL) {
 		printf("\nGraph contains at least one cycle");
@@ -36,17 +36,18 @@ int main()
 		printf("\n Graph doesn't contain a cycle");
 	}
 	
-	
+	freeGraph(&graph);
+	freeDict(&cycles);
 }
 
 void printCycles(Graph* graph, Dictionary* cycles)
 {
-	DictionaryItem* curle = cycles->head;
+	DictionaryItem* tempDictItem = cycles->head;
 	ListNode* longestPath = cycles->head->value->head;
 	int max = -1;
 
-	while (curle != NULL) {
-		ListNode* node = curle->value->head;
+	while (tempDictItem != NULL) {
+		ListNode* node = tempDictItem->value->head;
 		ListNode* tmp = graph->array[node->dest].head;
 		int sumPath = 0;
 		while (node->next != NULL)
@@ -63,10 +64,10 @@ void printCycles(Graph* graph, Dictionary* cycles)
 		sumPath += tmp->weight;
 		if (sumPath > max) {
 			max = sumPath;
-			longestPath = curle->value->head;
+			longestPath = tempDictItem->value->head;
 		}
-		printf("{%d->[%d]->%d} - Path weight = %d\n\n", node->dest, tmp->weight, curle->value->head->dest, sumPath);
-		curle = curle->next;
+		printf("{%d->[%d]->%d} - Path weight = %d\n\n", node->dest, tmp->weight, tempDictItem->value->head->dest, sumPath);
+		tempDictItem = tempDictItem->next;
 	}
 
 	printf("\nThe longest path was  found. Take a look :)\n");
