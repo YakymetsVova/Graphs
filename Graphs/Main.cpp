@@ -1,31 +1,25 @@
 #include "Header.h"
+#include <chrono>
 
 int main()
 {
-	int V = 7;
-	Graph* graph = createGraph(V);
-	addEdge(graph, 0, 1, 5);
-	addEdge(graph, 1, 2, 6);
-	addEdge(graph, 2, 4, 8);
-	addEdge(graph, 4, 2, 3);
-	addEdge(graph, 2, 6, 5);
-	addEdge(graph, 2, 3, 2);
-	addEdge(graph, 6, 1, 11);
-	addEdge(graph, 1, 6, 12);
-	addEdge(graph, 6, 3, 4);
-	addEdge(graph, 3, 0, 1);
+	Graph* graph = NULL;
 
-	/*addEdge(graph, 0, 1, 5);
-	addEdge(graph, 1, 2, 6);
-	addEdge(graph, 2, 3, 7);*/
+	readData(&graph);
 
-
+	puts("\n Result of reading data:");
 	printGraph(graph);
-	bool* visited = newVisitedVertexArr(graph);
 
 	Dictionary* cycles = newDictionary();
-	getCycles(graph, cycles);
 
+	using std::chrono::high_resolution_clock;
+	using std::chrono::duration_cast;
+	using std::chrono::duration;
+	using std::chrono::milliseconds;
+
+	auto t1 = high_resolution_clock::now();
+	getCycles(graph, cycles);
+	auto t2 = high_resolution_clock::now();
 	if (cycles->head != NULL) {
 		printf("\nGraph contains at least one cycle");
 		printf("\n\nYour cycles:\n\n");
@@ -35,9 +29,15 @@ int main()
 	{
 		printf("\n Graph doesn't contain a cycle");
 	}
-	
+
+	duration<double, std::milli> ms_double = t2 - t1;
+	printf("\n\nTime taken by function to find all cycles: %lfms", ms_double);
+
 	freeGraph(&graph);
 	freeDict(&cycles);
+
+	getchar();
+
 }
 
 void printCycles(Graph* graph, Dictionary* cycles)
@@ -79,3 +79,26 @@ void printCycles(Graph* graph, Dictionary* cycles)
 	printf("%d -> %d - Path weight = %d\n\n", crawl->dest, longestPath->dest, max);
 }
 
+void readData(Graph** graph)
+{
+	FILE* fp;
+	char path[MAX];
+	printf("Enter the path to the file you want to read from\n");
+	gets_s(path, MAX);
+	if ((fp = fopen(path, "r")) == NULL) {
+		puts("\nNo file found");
+		exit(EXIT_FAILURE);
+	}
+	int source, dest, weight, vertexes;
+	fscanf(fp, "%d", &vertexes);
+	*graph = createGraph(vertexes);
+	while (!feof(fp)) {
+		if (fscanf(fp, "%d%d%d", &source, &dest, &weight))
+			addEdge(*graph, source, dest, weight);
+		else {
+			puts("Invalid input!");
+			exit(EXIT_FAILURE);
+		}
+	}
+	fclose(fp);
+}

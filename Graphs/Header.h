@@ -1,7 +1,9 @@
 #pragma once
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#define MAX 150
 
 typedef struct ListNodeTag {
 	int dest;
@@ -44,6 +46,8 @@ List* newList();
 void addToList(List* list, int item);
 void removeLastItem(List* list);
 
+void readData(Graph** graph);
+
 
 Graph* createGraph(int V);
 void addEdge(Graph* graph, int src, int dest, int weight);
@@ -71,3 +75,4 @@ bool containsKey(Dictionary* dict, int key);
 
 
 
+ 

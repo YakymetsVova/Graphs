@@ -9,7 +9,6 @@ Graph* createGraph(int V)
 	Graph* graph = (Graph*)malloc(sizeof(Graph));
 	graph->V = V;
 
-
 	//create an array of adjaency lists
 	graph->array = (List*)malloc(V * sizeof(List));
 
@@ -39,9 +38,9 @@ void printGraph(Graph* graph)
 {
 	for (int v = 0; v < graph->V; v++) {
 		ListNode* pCrawl = graph->array[v].head; //crawl -повзунок))
-		printf("\n Adjacency list of vertex %d\n head ", v);
+		printf("\n Adjacency list of vertex %d\n head -> ", v);
 		while (pCrawl) {
-			printf("-> %d", pCrawl->dest);
+			printf("%d[%d];  ", pCrawl->dest, pCrawl->weight);
 			pCrawl = pCrawl->next;
 		}
 		printf("\n");
@@ -66,6 +65,7 @@ void getCycles(Graph* graph, Dictionary* cycles)
 		List* cycleVertexes = newList();
 		bool* visited = newVisitedVertexArr(graph);
 		getCyclesUtil(graph, cycles, i, i, visited, cycleVertexes);
+		free(visited);
 	}
 }
 
@@ -74,14 +74,14 @@ void getCyclesUtil(Graph* graph, Dictionary* dict, int startNode, int currNode, 
 {
 	if (visited[currNode]) {
 		if (currNode == startNode) {
-			List* temp = newList();
-			ListNode* curr = cycleVertexes->head;
-			while (curr != NULL) {
+			/*List* temp = newList();
+			ListNode* curr = cycleVertexes->head;*/
+			/*while (curr != NULL) {
 				addToList(temp, curr->dest);
 				curr = curr->next;
-			}
-
-			int key = getHash(temp);
+			}*/
+			/**temp = *cycleVertexes;*/
+			int key = getHash(cycleVertexes);
 			if (!containsKey(dict, key)) {
 				DictionaryItem* tmp = newDictItem(key, cycleVertexes);
 				addToDict(dict, tmp);
